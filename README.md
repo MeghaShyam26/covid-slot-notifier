@@ -5,7 +5,7 @@ This application notifies when the slots are available for the particular pincod
 ## Steps to use
 - clone the repo
     ```
-    git clone 
+    git clone https://github.com/MeghaShyam26/covid-slot-notifier.git
     ```
 - install the requirements
     ```
