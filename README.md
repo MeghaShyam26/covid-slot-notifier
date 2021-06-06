@@ -32,4 +32,4 @@ This application notifies when the slots are available for the particular pincod
 - primariy between 2-6 pm is where the slots are being opened so definetly have the server and hit '/notify' endpoint for the same time.
 
 ## Sample output
-![Adding role](images/output.png)
+![Sample output](images/output.JPG)
