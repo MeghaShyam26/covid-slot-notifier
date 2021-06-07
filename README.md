@@ -1,6 +1,6 @@
 # Vaccination Slot Notifier
 
-This application notifies when the slots are available for the particular pincode, age and slot number entered.
+This application notifies via email when the slots are available for the particular pincode, age and slot number entered.
 
 ## Steps to use
 - clone the repo
@@ -16,7 +16,8 @@ This application notifies when the slots are available for the particular pincod
     - Enter a valid password in line 8
     - Enter the age you are looking for in line 12
     - Enter the slot number you are looking for in line 16
-    - Enter the pincode required in line 20
+    - Enter the pincode required in the array in line 20 and append more if required
+    - Enter the number of days you want to check for starting from today in line 32
 - Navigate to app.py
     - Enter a valid 'to' address in line 62
     - If the mail has to be sent to more than 1 then copy the line and paste it below and change the 'to' address
