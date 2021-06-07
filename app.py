@@ -14,17 +14,6 @@ headers = {
     'Content-type': 'application/json',
 }
 
-
-# url to hit
-today = (str(datetime.now())[:10]).split('-')
-url_1 = "https://cdn-api.co-vin.in/{}?pincode={}&date={}-{}-{}".format(constants.pin_code_url, constants.pincode, today[2], today[1], today[0])
-
-today = (str(datetime.now() + timedelta(days=1)).split(' ')[0]).split('-')
-url_2 = "https://cdn-api.co-vin.in/{}?pincode={}&date={}-{}-{}".format(constants.pin_code_url, constants.pincode, today[2], today[1], today[0])
-
-today = (str(datetime.now() + timedelta(days=2)).split(' ')[0]).split('-')
-url_3 = "https://cdn-api.co-vin.in/{}?pincode={}&date={}-{}-{}".format(constants.pin_code_url, constants.pincode, today[2], today[1], today[0])
-
 # request type
 method = "GET"
 
@@ -36,16 +25,26 @@ def operation():
     # var to load the metadata if the slots are available to send a mail
     text = ''
 
-    for url in [url_1, url_2, url_3]:
-        # making an api request
-        response =  requests.request(method, url)
-        result = json.loads(response.text)
-        sessions = result["sessions"]
-        # checking if any hospital has doses for the appropriate dose number and age
-        for session in sessions:
-            if (session['min_age_limit']==constants.req_age):
-                if (session['available_capacity_dose{}'.format(constants.req_slot)]>0):
-                    text = text + 'hospital:{}, address:{}, date:{}, age_limit:{}, available dose1 count:{}, available dose2 count:{}, fee:{}, vaccine:{}, slots:{}.  '.format(session['name'], session['address'], session['date'], session['min_age_limit'], session['available_capacity_dose1'], session['available_capacity_dose2'], session['fee'], session['vaccine'], session['slots'])
+    # making request to the number of days mentioned 
+    for day in range(constants.day_check_count):
+        
+        # changing the date according to the day change
+        today = (str(datetime.now() + timedelta(days=day)).split(' ')[0]).split('-')
+        
+        # parsing through all the pincodes mentioned
+        for pincode in constants.pincode:
+            url = "https://cdn-api.co-vin.in/{}?pincode={}&date={}-{}-{}".format(constants.pin_code_url, pincode, today[2], today[1], today[0])
+            
+            # making an api request
+            response =  requests.request(method, url)
+            result = json.loads(response.text)
+            sessions = result["sessions"]
+            
+            # checking if any hospital has doses for the appropriate dose number and age
+            for session in sessions:
+                if (session['min_age_limit']==constants.req_age):
+                    if (session['available_capacity_dose{}'.format(constants.req_slot)]>0):
+                        text = text + 'hospital:{}, address:{}, date:{}, age_limit:{}, available dose1 count:{}, available dose2 count:{}, fee:{}, vaccine:{}, slots:{}.  '.format(session['name'], session['address'], session['date'], session['min_age_limit'], session['available_capacity_dose1'], session['available_capacity_dose2'], session['fee'], session['vaccine'], session['slots'])
     
     # checking the text is empty to see if the slots are available to send a notification via email
     if (text != ''):
