@@ -26,12 +26,14 @@ class constants:
    day_check_count = 3
 
    # sleep time is the time interval between each api request made and this has to be carefully scrutinized based on:
-   # internet speed, parallell tasks running, compute capacity, etc.
+   # sleep time for peak time
+   sleep_peak_time = 5
 
-   # sleep time when there are slots available in the previous call made
-   # (Reccomendation) To check more quickly for the slot update when there are slots or at the peak time when there can be slots u can reduce the number to 1-30 
-   sleep_availability_count_check = 60
+   # sleep time for non peak time
+   sleep_non_peak_time = 30
 
-   # sleep time when there are no slots available in the previosu call made
-   # (Reccomendation) To check more quickly for the slot availability at the peak time or generally as well, u can reduce the number to 30-60
-   sleep_availability_check = 300
+   # peak hour start time
+   start_time = 14
+
+   # peak hour end time
+   end_time = 18
