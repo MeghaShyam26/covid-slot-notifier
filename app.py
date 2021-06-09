@@ -84,8 +84,9 @@ def operation():
         # logging into the from email id
         server = smtplib.SMTP_SSL("smtp.gmail.com", 465)
         server.login(constants.username, constants.password)
-        # enter a valid to address
-        server.sendmail(constants.username,"<to address>", message)
+        # sending notification mails
+        for email in constants.to_addresses:
+            server.sendmail(constants.username,email, message)
         server.quit()
         print('[INFO] Mail sent')
         return 'exists'
@@ -95,7 +96,7 @@ def operation():
 @app.route('/notify', methods=['GET'])
 def main():
     global operation_check
-
+    print('[INFO] server started...')
     operation_check = True
     while operation_check:
         # extarcting the current hour
@@ -113,6 +114,7 @@ def main():
 def stop_operations():
     global operation_check
     operation_check = False
+    print('[INFO] server stopped...')
     return 'success'
 
 # enter a port number of choice if hosted locally or 8080 if posting via docker or other cloud/online service and make the host=0.0.0.0
